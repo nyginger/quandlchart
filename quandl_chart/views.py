@@ -504,7 +504,7 @@ def plotdata(request):
     series=Series(new_df.iloc[:,0])
     print(series)
     if plottype=='hist':
-    #try:
+
         fig, ax = plt.subplots(figsize=(4,3),edgecolor='lightgray')
         plt.title('Probability Distribution')
         ax.grid(color='lightgray', alpha=0.7, linewidth=0.5)
@@ -522,20 +522,6 @@ def plotdata(request):
         fig.clear() 
         return  JsonResponse({'imagedata':'<img src="data:image/png;base64,%s" />' % encoded_img, 'kurtosis':kurtosis, 'skew':skew},safe=False)
     
-    # df_min=df.iloc[:,1].min()*0.9
-    # df_max=df.iloc[:,1].max()*1.1
-    # df_mode=df_max-df_min
-    # d=len((str(df_mode).split('.'))[0])
-    # if d==1:d=3
-    # else: d=-d+3
-    # bins=np.arange(round(df_min,d-1),round(df_max,d-1),round(df_mode/20,d))
-    # label=np.around(bins[1:],d).tolist()
-    # data=df.groupby(pd.cut(df.iloc[:,1], bins=bins)).count().iloc[:,1]
-    # content={'label':label,'data':list(data)}
-    # return  JsonResponse(content)
-        
-    #except:
-    #    return  JsonResponse('<h6>No plot</h6>', safe=False)
     elif plottype=='trend':
         freq_act=result['dataset']['frequency']
         freq_days_act=freq2days(freq_act,0)

@@ -9,13 +9,8 @@ import json
 
 import numpy as np
 
-
-# to use mongodb
-# from pymongo import MongoClient
-# MONGO_HOST= 'mongodb://127.0.0.1:27017' 
-# client = MongoClient(MONGO_HOST)
-# db = client.local 
-
+#use Quandl Api Key
+API_KEY=''
 
 def diff_by_freq(d1,d2,freq):
     du=datetime.strptime(d1,'%Y-%m-%d')
@@ -62,8 +57,8 @@ def quandl_content(title, dataset,default_item, col_index,sorting, category, cou
     items=Items_table.objects.filter(dataset=dataset).order_by(sorting)
 
     url = 'https://www.quandl.com/api/v3/datasets/{}/{}'  \
-					+ '.json?&api_key=xgnhYnpkFuqTgBDX4bjK&start_date={}&end_date={}&order=asc&collapse=none&transform=none&column_index={}'
-    dataurl=url.format(dataset,default_item,start_date,end_date,col_index)
+					+ '.json?&api_key={}&start_date={}&end_date={}&order=asc&collapse=none&transform=none&column_index={}'
+    dataurl=url.format(dataset,apikey,default_item,start_date,end_date,col_index)
     print(dataurl)
     result=requests.get(dataurl).json()
     freq=result['dataset']['frequency']
@@ -87,24 +82,6 @@ def quandl_content(title, dataset,default_item, col_index,sorting, category, cou
     return context
 
 def stock(request):
-    # if request.method=='POST':
-    #     form=  ItemForm(request.POST)
-    #     form.save()
-        
-    # key=API_keys.object.all()
-
-    # url=''
-    # result=requests.get(url).json()
-    # print(r.text)
-    # item1=result['item']
-
-    # items={
-    #     'item1': result['item1'],
-    #     'item2': result['item2']
-    # }
-    # context={'items':items}
-    # return render(request, 'quandl_chart/index.html', context) 
-
     
     dataset='WIKI'
     default_item='AAPL'
@@ -141,7 +118,7 @@ def lme(request):
     context=quandl_content(title, dataset,default_item,col_index,sorting,'y','n',ctype)
     
     return render(request, 'quandl_chart/chart.html', context)
-    #lme_items=db.quandl.find({'dataset':'LME'}).sort('symbol')
+
 
 
 def johnmatt(request):
@@ -397,21 +374,15 @@ def quandldata(request):
  
     transform=request.GET['transform']
     
-        
- 
-    # if dataset=='WIKI':
-    #     start_date=(datetime.now()+timedelta(days=-300)).strftime('%Y-%m-%d')
-    # else:
-    #     start_date=(datetime.now()+timedelta(weeks=-500)).strftime('%Y-%m-%d')        
 
     url = 'https://www.quandl.com/api/v3/datasets/{}/{}'  \
-					+ '.json?&api_key=xgnhYnpkFuqTgBDX4bjK&start_date={}&end_date={}&order=asc&collapse={}&transform={}&column_index={}'
+					+ '.json?&api_key={}&start_date={}&end_date={}&order=asc&collapse={}&transform={}&column_index={}'
     
     try:
         col_index=request.GET['col_index']
     except:
         col_index=1
-    dataurl=url.format(dataset,symbol,start_date,end_date,freq,transform,col_index)
+    dataurl=url.format(dataset,API_KEY,symbol,start_date,end_date,freq,transform,col_index)
     print(dataurl)
     result=requests.get(dataurl).json()
     name=result['dataset']['name']
@@ -514,12 +485,12 @@ def plotdata(request):
 
 
     url = 'https://www.quandl.com/api/v3/datasets/{}/{}'  \
-                    + '.json?&api_key=xgnhYnpkFuqTgBDX4bjK&start_date={}&end_date={}&order=asc&collapse={}&transform={}&column_index={}' 
+                    + '.json?&api_key={}&start_date={}&end_date={}&order=asc&collapse={}&transform={}&column_index={}' 
     try:
         col_index=request.GET['col_index']
     except:
         col_index=1
-    dataurl=url.format(dataset,symbol,start_date,end_date,freq,transform,col_index)
+    dataurl=url.format(dataset,API_KEY,symbol,start_date,end_date,freq,transform,col_index)
     print(dataurl)
     result=requests.get(dataurl).json()
     df=pd.DataFrame(result['dataset']['data'], columns=result['dataset']['column_names'])

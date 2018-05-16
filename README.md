@@ -3,7 +3,9 @@
 Website to retrieve data and visualize it through Chart.JS.
 
 Python webserver powered by django framework.
-Client webpage is mainly designed by javascript.
+Client webpage is mainly designed by bulma css and javascript.
+Originally designed to provide advanced data analytics for financial and economic data through pandas and scipy.
+Still under construction to develop more analytical charting.
 
 <br>
 

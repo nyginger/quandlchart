@@ -174,12 +174,7 @@
                                                 </label>
                                             {% endfor %}
                                     </div>
-                                    <!-- <input list="category" id="slctd_ctgry" class="input is-small" type="search" onfocus="this.value=''" placeholder="Select category..">
-                                        <datalist id="category">
-                                            {% for c in category %}
-                                                <option  value="{{ c.category }}">
-                                            {% endfor %}
-                                        </datalist> -->
+                
                             </div>
 
                         </div>
@@ -489,7 +484,6 @@
                 $('#slctd_ind').focus();
         {% endif %}
 
-        //$('#indicators option[ctgry-value!="'+category+'"]').hide();
     });
 
     $('#slctd_ccode').blur(function(){

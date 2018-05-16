@@ -3,12 +3,9 @@ cycler==0.10.0
 jinja2==2.10
 matplotlib==2.2.2
 mglearn==0.1.6
-mpld3==0.3
 numpy==1.14.3
 pandas==0.22.0
 pillow==5.1.0
-plotly==2.6.0
-pymongo==3.5
 requests==2.18.4
 python-dateutil==2.7.3
 scikit-learn==0.19.1

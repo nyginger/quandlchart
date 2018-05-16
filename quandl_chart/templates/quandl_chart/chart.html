@@ -1,0 +1,1054 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top route-documentation fontawesome-i2svg-active fontawesome-i2svg-complete bd-is-clipped-touch">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=1">
+<title>Numbers:Quantitative Browsing Of Life</title>
+<link rel="stylesheet" href="{% static 'quandl_chart/bulma.css' %}" >
+<script src="{% static 'quandl_chart/jquery.min.js' %}"></script>
+<script src="{% static 'quandl_chart/jquery.number.min.js' %}"></script>
+<script src="{% static 'quandl_chart/moment.min.js' %}"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js'></script>
+<link rel="stylesheet" href="{% static 'quandl_chart/normalize.css' %}" />
+<link rel="stylesheet" href="{% static 'quandl_chart/ion.rangeSlider.css' %}" />
+<link rel="stylesheet" href="{% static 'quandl_chart/ion.rangeSlider.skinHTML5.css' %}" />
+<!--<script src="{% static 'quandl_chart/jquery-1.12.3.min.js' %}"></script> -->
+<script src="{% static 'quandl_chart/ion.rangeSlider.min.js' %}"></script>
+
+<style>
+
+.loader {
+    border: 5px solid #c5c5c5;
+    border-radius: 50%;
+    border-top: 10px solid rgba(0,0,0,0);
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    z-index: 9999;
+    margin-top:20%;
+    margin-left:45%;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+
+</style>
+
+<script type="text/javascript">
+    window.onload = function(){
+        $('#pageContainer').addClass(' is-hidden');
+    }
+    
+   
+</script>
+</head>
+
+<body>
+    <div class="loader"></div>
+<div id="pageContainer" class="container is-fluid">
+        
+        <nav class="navbar is-fixed-top is-light is-transparent" role="navigation" aria-label="dropdown navigation" style="transform: translateY(0px); ">
+            
+
+                <div class="navbar-brand">
+
+                    <div class="navbar-item"><h6 class="title is-6">{{ title }}</h6></div>
+
+
+                    <div id="sub_menu_btn" class="navbar-burger burger" data-target="navMenuDoc">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+                </div>
+
+                    <div id="navMenuDoc" class="navbar-menu">
+                            <div class="navbar-start">
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link" style="color:royalblue;">
+                                        Markets
+                                    </a>
+                                    <div class="navbar-dropdown">
+                                            <a class="navbar-item" href="{% url 'quandl:stock' %}">
+                                                Stocks
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:urc' %}">
+                                                Stock Market Advancing/Declining
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:comdty' %}">
+                                                Commodity Markets
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:lme' %}">
+                                                LME
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:lbma' %}">
+                                                Precious Metals
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:johnmatt' %}">
+                                                Rare Metals
+                                            </a>
+                                    </div>
+                                </div>
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link" style="color:royalblue;">
+                                        US Macro Indicators
+                                    </a>                              
+                                    <div class="navbar-dropdown">
+                                            <a class="navbar-item" href="{% url 'quandl:ism' %}">
+                                                ISM PMI/NMI Index
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:umich' %}">
+                                                Consumer Sentiment Index
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:fred' %}">
+                                                Fed Macro Statistics
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:treasury' %}">
+                                                US Treasury Yields
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:yale' %}">
+                                                Yale Real Estate Indicators
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:fmac' %}">
+                                                Freddie Mac Database
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:urc' %}">
+                                                Political Stability
+                                            </a>
+                                    </div>
+                                </div>
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link" style="color:royalblue;">
+                                        World Macro Indicators
+                                    </a>                              
+                                    <div class="navbar-dropdown">
+                                            <a class="navbar-item" href="{% url 'quandl:imf' %}">
+                                                IMF Macro Statistics
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:bp' %}">
+                                                BP Energy Statistics
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:jodi' %}">
+                                                JODI-Oil World Database
+                                            </a>
+                                            <a class="navbar-item" href="{% url 'quandl:gpp' %}">
+                                                Global Petrol Prices
+                                            </a>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+
+                    </div>
+
+        </nav>
+        <div class="container is-fluid">
+            <div class="box">
+                
+                {% if category  %}
+                        <div class="columns is-mobile" style="margin:auto;">
+                            <div class="column is-one-fifth-desktop is-one-fourth-tablet is-one-third-mobile is-gapless">
+                                <h5 class="is-5">Category</h5>
+                            </div>
+                            <div class="column ">
+                                    <div class="control" id="slctd_ctgry">
+
+                                            {% for c in category %}
+                                                <label class="radio">
+                                                    <input type="radio" name="category" value="{{ c.category }}">
+                                                    {{ c.category }}
+                                                </label>
+                                            {% endfor %}
+                                    </div>
+                                    <!-- <input list="category" id="slctd_ctgry" class="input is-small" type="search" onfocus="this.value=''" placeholder="Select category..">
+                                        <datalist id="category">
+                                            {% for c in category %}
+                                                <option  value="{{ c.category }}">
+                                            {% endfor %}
+                                        </datalist> -->
+                            </div>
+
+                        </div>
+
+
+                {% endif %}
+
+                {% if ccode %}
+                        <div class="columns is-mobile" style="margin:auto;">
+                            <div class="column is-one-fifth-desktop is-one-fourth-tablet is-one-third-mobile is-gapless">
+                                <h5 class="is-5">Country</h5>
+                            </div>
+                            <div class="column">
+                                        <input list="ccode" id="slctd_ccode" class="input is-small" type="search" onfocus="this.value=''"  placeholder="Select country/subcategory..">
+                                        <datalist id="ccode">
+                                            {% for c in ccode %}
+                                                <option data-value="{{ c.ccode }}" value="{{ c.country }}">
+                                            {% endfor %}
+                                        </datalist>
+                            </div>
+                        </div>
+            
+                {% endif %}
+
+
+                <div class="columns is-mobile" style="margin:auto;">
+                        <div class="column is-one-fifth-desktop is-one-fourth-tablet is-one-third-mobile is-gapless">
+                            <h5 class="is-5">Item</h5>
+                        </div>
+
+                        <div class="column">
+                    
+                                {% if ctype == 'bar' %}
+                                    <input list="indicators" id="slctd_ind" class="input is-small" type="search" onfocus="this.value=''" placeholder="Select indicator..">
+                                {% else %}
+                                    <input list="indicators" id="slctd_ind" class="input is-small" type="search" onfocus="this.value=''" placeholder="Select ticker..">
+                                {% endif %}
+                                <datalist id="indicators">
+                                    {% if countries %}
+                                        {% for item in items %}
+                                            <option data-value="{{ item.code }}" value="{{ item.name }}">
+                                        {% endfor %}
+                                    {% else %}
+                                        {% if category %}
+                                            {% for item in items %}
+                                                <option ctgry-value="{{ item.category }}" data-value="{{ item.symbol }}" value="{{ item.description }} ({{ item.symbol }})">
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for item in items %}
+                                                <option data-value="{{ item.symbol }}" value="{{ item.description }} ({{ item.symbol }})">
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                </datalist>
+                    
+                        </div>
+                </div>
+                <div class="columns is-mobile" style="margin:auto;">
+                        <div class="column is-one-fifth-desktop is-one-fourth-tablet is-one-third-mobile is-gapless">
+                            <h5 class="is-5">Frequency</h5>
+                        </div>
+                        <div class="column">
+                            
+                            <div class="control" id="slctd_freq">
+                                <label class="radio">
+                                    <input type="radio" name="freq" value="daily" data-value="1" checked>
+                                    daily
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="freq" value="weekly" data-value="7">
+                                    weekly
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="freq"  value="monthly" data-value="30">
+                                    monthly
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="freq" value="quarterly"  data-value="90">
+                                    quarterly
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="freq" value="annual"  data-value="365">
+                                    annual
+                                </label>
+                            </div> 
+
+                         </div> 
+                </div>
+
+
+                <div class="columns is-mobile" style="margin:auto;">
+                        <div class="column is-one-fifth-desktop is-one-fourth-tablet is-one-third-mobile is-gapless">
+                            <h5 class="is-5">Time Range</h5>
+                        </div>
+                        <div class="column">
+                            <div class="control" id="slctd_rng">
+                                <label class="radio">
+                                    <input type="radio" name="range" value="none" data-value="0" >
+                                    None
+                                </label>                                        
+                                <label class="radio">
+                                    <input type="radio" name="range" value="6 month" data-value="0.5" >
+                                    6 month
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="range" value="1 year" data-value="1">
+                                    1 year
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="range" value="3 year" data-value="3" checked>
+                                    3 year
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="range" value="5 year" data-value="5">
+                                    5 year
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="range" value="10 year" data-value="10">
+                                    10 year
+                                </label>
+                                <label class="radio">
+                                        <input type="radio" name="range" value="max-range" data-value="max">
+                                        max
+                                </label>
+                            </div> 
+                     </div>
+                </div>
+                <div class="columns is-mobile" style="margin:auto;">
+                        <div class="column is-one-fifth-desktop is-one-fourth-tablet is-one-third-mobile is-gapless">
+                            <h5 class="is-5">Data Transformation</h5>
+                        </div>
+                        <div class="column">
+                                <div class="control" id="slctd_trans">
+                                        <label class="radio">
+                                            <input type="radio" name="transform" value="None" data-value="none" checked>
+                                            None
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="transform" value="Change" data-value="none">
+                                            Change
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="transform" value="%Change" data-value="rdiff">
+                                            %Change
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="transform" value="Latest Value as % increment" data-value="rdiff_from">
+                                            Latest Value as % increment
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="transform" value="Cumulative Sum" data-value="cumul">
+                                            Cumulative Sum
+                                        </label>
+                                        <label class="radio">
+                                                <input type="radio" name="transform" value="Scale to start at 100" data-value="normalize">
+                                                Scale to start at 100
+                                        </label>
+                                    </div> 
+                        </div>
+                </div>
+
+                <div class="columns is-mobile" style="margin:auto;">
+                        <div class="column is-one-fifth-desktop is-one-fourth-tablet is-one-third-mobile is-gapless">
+                            <h5 class="is-5">Chart</h5>
+                        </div>
+                        <div class="column">
+                                <div class="control" id="slctd_chart">
+                                        <label class="radio">
+                                            <input type="radio" name="chart" value="none" checked>
+                                            None
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="chart" value="hist" >
+                                            Histogram
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="chart" value="trend" >
+                                            Trend & Seasonality
+                                        </label>
+                                </div>
+                        </div>
+                </div>
+
+      
+            </div>
+        </div>
+     
+        <div class="container is-fluid">
+            <div class="columns">
+                <div class="column">
+                
+                    <div id="selection_tags" class="box is-hidden" style="float:left;width:100%;">
+                            <h5 class="is-size-6">Seleted criteria</h5>
+                            
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                    <div class="column is-three-quarters-desktop is-two-thirds-tablet is-mobile">
+    
+                        <figure id="chart_area">
+                                <div class="chart-container" style="min-height:400px;max-height:100%;"><canvas id="chart" style="position: relative; height:70vh;width:95vw;"></canvas></div>
+                        </figure>
+                        <div style="max-width:97%;overflow:hidden;">
+                            <input type="text" id="slider-1" value="" name="range" />
+                        </div>
+                                
+                    </div>
+                    <div class="column">
+                            <div id="item_dsc" class="tile is-hidden"></div>
+                            <hr class="hr" style="margin-top: 10;color:gray;">
+                            <div id="table_area" class="tile is-hidden">
+                                <div id="dsc_table" style="width:100%;"></div>
+                            </div>
+                    
+                    </div>                
+            </div>
+
+            <div class="columns"  style="margin:auto;">
+                        <div class="column is-half-desktop is-mobile">
+                                <div id="chart2_area"></div>
+                        </div>
+                        <div class="column is-one-quarter-desktop is-one-third-tablet is-mobile">
+                            <div id="desc2_area"></div>
+                        </div>
+        
+            </div>
+
+            
+
+      
+            
+
+
+
+        </div>
+            
+</div>
+<script>
+    $(window).load(function() {
+        
+        $(".loader").fadeOut(500, function(){
+            $('#pageContainer').removeClass('is-hidden');
+        });
+        
+    });
+
+    $('#freq_radio1').blur(function(){
+        console.log($('#freq_radio1').val());
+    });
+
+
+    $('#sub_menu_btn').bind('click',function(){
+        if ($('#sub_menu_btn').attr('class')=='navbar-burger burger is-active') {
+            $('#navMenuDoc').removeClass('is-active'); 
+            $('#sub_menu_btn').removeClass('is-active'); 
+        } else {
+            $('#navMenuDoc').addClass(' is-active'); 
+            $('#sub_menu_btn').addClass(' is-active');
+        }
+    });
+
+    $('#slctd_ctgry input[type=radio]').blur(function(){
+     
+        var slct_category=$('#slctd_ctgry input[type=radio]:checked').val();
+        {% if ccode %}
+                $('#slctd_ind').val('');
+                if ($('#slctd_ccode').val()!=''){
+                    var cname=$('#slctd_ccode').val();
+                    var ccode=$('#ccode [value="'+cname+'"]').data('value');
+                    $('#indicators option').remove();
+                    var getData=$.get('/loaditem?dataset={{ dataset }}&category='+slct_category+'&ccode='+ccode);
+                    getData.done(function(results){
+                        console.log(results.items);
+                        var items=results.items;
+                        for (i in items){
+                            $('#indicators').append('<option data-value="'+items[i].symbol+'" value="'+items[i].description+'">');
+                        }
+                    });
+                    $('#slctd_ind').focus();
+                } else {
+                    $('#ccode option').remove();
+                    var getData=$.get('/loadcntry?dataset={{ dataset }}&category='+slct_category);
+                    getData.done(function(results){
+                        console.log(results.countries);
+                        var countries=results.countries;
+                        for (i in countries){
+                            $('#ccode').append('<option data-value="'+countries[i].ccode+'" value="'+countries[i].country+'">');
+                        }
+                    });
+
+                    $('#slctd_ccode').focus();
+                }
+
+        {% else %}
+                $('#slctd_ind').val('');
+                $('#indicators option').remove();
+                var getData=$.get('/loaditem?dataset={{ dataset }}&category='+slct_category);
+                getData.done(function(results){
+                    console.log(results.items);
+                    var items=results.items;
+                    for (i in items){
+                        $('#indicators').append('<option data-value="'+items[i].symbol+'" value="'+items[i].description+'">');
+                    }
+                });
+                $('#slctd_ind').focus();
+        {% endif %}
+
+        //$('#indicators option[ctgry-value!="'+category+'"]').hide();
+    });
+
+    $('#slctd_ccode').blur(function(){
+        $('#country_tag').remove();
+        $('#slctd_ind').val('');
+        var cname=$(this).val();
+        var ccode=$('#ccode [value="'+cname+'"]').data('value');
+        var slct_category=$('#slctd_ctgry input[type=radio]:checked').val();
+        $('#indicators option').remove();
+        var getData=$.get('/loaditem?dataset={{ dataset }}&category='+slct_category+'&ccode='+ccode);
+        getData.done(function(results){
+            console.log(results.items);
+            var items=results.items;
+            for (i in items){
+                $('#indicators').append('<option data-value="'+items[i].symbol+'" value="'+items[i].description+'">');
+            }
+            $('#selection_tags').removeClass('is-hidden');
+            $('#selection_tags').append('<div id="country_tag" style="float:left;"><span class="tag is-success is-rounded">'+cname+
+                '<button class="delete is-small" onclick="$(this).parent().remove();"></button></div>');
+            $('#slctd_ind').focus();
+        });
+        
+
+    });
+
+    $("#slider-1").ionRangeSlider({
+        type: "double",
+        min: +moment('{{ min }}').format("X"),
+        max: +moment('{{ max }}').format("X"),
+        from: +moment('{{ start_date }}').format("X"),
+        to: +moment('{{ end_date }}').format("X"),
+        hide_min_max: false,
+        hide_from_to: false,
+        force_edges: true,
+        grid: false,
+        prettify: function (num) {
+            return moment(num, "X").format("YYYY-MM-DD");
+        },
+        onFinish:  function (data) {
+            console.log(data);
+            $('#slctd_rng input[type=radio]').removeAttr('checked');
+            $('#slctd_rng input[type=radio]').filter('[value="none"]').prop('checked', true);
+            drawChart(data.from_pretty,data.to_pretty);
+        }
+
+    });
+
+      
+    $('#slctd_ind').bind('change',function(){
+        $('#selection_tags').removeClass('is-hidden');
+        $('#item_tag').remove();
+        $('#selection_tags').append('<div id="item_tag"  style="float:left;"><span class="tag is-success is-rounded">'+$(this).val()+
+                '<button class="delete is-small" onclick="$(this).parent().remove();"></button></div>');   
+        
+        var d=$('#slider-1').data('ionRangeSlider');
+        var d1=d.result.from_pretty;
+        var d2=d.result.to_pretty;
+        drawChart(d1,d2);
+    });
+ 
+
+    $('#slctd_trans input[type=radio]').bind('change',function(){
+        $('#selection_tags').removeClass('is-hidden');
+        $('#trans_tag').remove();
+        $('#selection_tags').append('<div id="trans_tag"  style="float:left;"><span class="tag is-success is-rounded">'+$('#slctd_trans input[type=radio]:checked').val()+
+                '<button class="delete is-small" onclick="$(this).parent().remove();"></button></div>');   
+        var d=$('#slider-1').data('ionRangeSlider');
+        var d1=d.result.from_pretty;
+        var d2=d.result.to_pretty;
+        drawChart(d1,d2);
+    });
+
+    $('#slctd_freq input[type=radio]').bind('change',function(){
+        $('#selection_tags').removeClass('is-hidden');
+        var d=$('#slider-1').data('ionRangeSlider');
+        var d1=d.result.from_pretty;
+        var d2=d.result.to_pretty;
+        drawChart(d1,d2);
+    });
+
+    $('#slctd_rng input[type=radio]').bind('change',function(){
+        $('#range_tag').remove();
+        $('#selection_tags').removeClass('is-hidden');
+        $('#selection_tags').append('<div id="range_tag" style="float:left;"><span class="tag is-success is-rounded">'+$('#slctd_rng input[type=radio]:checked').val()+
+                '<button class="delete is-small" onclick="$(this).parent().remove();"></button></div>');
+        var crng=$('#slctd_rng input[type=radio]:checked').data('value');
+        var d=$('#slider-1').data('ionRangeSlider');
+        if (crng=='max'){
+            
+            var dmin=moment(d.result.min_pretty).format('YYYY-MM-DD');
+            var d2=moment().format('YYYY-MM-DD');
+            d.update({from:d.result.min,
+                    to:moment(d2).format('X')});
+            drawChart(dmin,d2);
+        }else{
+            var d1=moment().subtract(crng,'years').format('YYYY-MM-DD');
+            var d2=moment().format('YYYY-MM-DD');
+            d.update({from:moment(d1).format('X'),
+                    to:moment(d2).format('X')});
+            drawChart(d1,d2);
+        }
+        
+        
+        
+    });
+
+    
+
+
+
+
+
+    $('#slctd_chart input[type=radio]').blur(function(){
+        $('#pageContainer').addClass(' is-hidden');
+        $(".loader").fadeIn(100);
+        $('#chartbox').remove();
+        $('#desc2table').remove();
+
+        var charttype=$('#slctd_chart input[type=radio]:checked').val();
+        if (charttype!='none'){
+            if ($('#slctd_ind').val()==''){
+                var iname='{{ default_title }}';
+                var icode='{{ default_item }}';
+            }else{
+                var iname=$('#slctd_ind').val();
+                var icode=$('#indicators [value="'+iname+'"]').data('value');
+            }
+            var dataset='{{ dataset }}';
+            if (dataset=='WIKI'){
+                var col_index=11;
+            }else{
+                var col_index=1;
+            }
+            var cdiff=$('#slctd_trans input[type=radio]:checked').data('value');
+            console.log(cdiff);
+            var cfreq=$('#slctd_freq input[type=radio]:checked').data('value');
+            var crng=$('#slctd_rng input[type=radio]:checked').data('value');
+            var d=$('#slider-1').data('ionRangeSlider');
+            var d1=d.result.from_pretty;
+            var d2=d.result.to_pretty;
+            var symbol= icode;
+            var url='/plotdata?dataset='+dataset+'&col_index='+col_index+'&symbol='+symbol+'&transform='+cdiff+'&plottype='+charttype+'&freq_days='+
+                    cfreq+'&range='+crng+'&start_date='+d1+'&end_date='+d2;
+            console.log(url);
+            plotChange(url,symbol);
+        }
+        $(".loader").fadeOut(100);
+        $('#pageContainer').removeClass(' is-hidden');
+
+    });
+
+
+    
+   $(function(){
+        var win_height=$(window).height();
+        $('div.chart-container').removeAttr("style");
+        $('div.chart-container').css({"min-height":0.5*win_height+'px',"max-height":0.6*win_height+'px'});
+        var mychart = $("#chart");
+        var start_date=moment().subtract(3,'years').format('YYYY-MM-DD');
+        var end_date=moment().format('YYYY-MM-DD');
+        var getData=$.get('/quandldata?dataset={{ dataset }}&symbol={{ default_item }}&freq_days=1&col_index=1&transform=none&start_date='+start_date+'&end_date='+end_date);
+        getData.done(function(results){
+            var chrtlabels= results.label;
+            var chrtdata=results.data;
+            var data =  {
+                    labels : chrtlabels,
+                    datasets : [{
+                            label: '{{ default_title | safe }}',
+                            backgroundColor: "rgba(255,99,132,0.2)",
+                        
+                            borderColor: "rgba(255,99,132,0.7)",
+                            borderWidth : 1,
+                            data : chrtdata
+                    }]
+                };
+                var options = {
+                            responsive : true,  
+                            maintainAspectRatio: false,
+                            responsiveAnimationDuration: 500,
+                            title: {
+                                display: true,
+                                fontSize: 20,
+                                text: '{{ default_title | safe }}'
+                            },
+                            legend: {
+                                display: false
+                            },
+                            {% if ctype == 'line' %}
+                                elements: {
+                                    line: {
+                                        tension: 0, // disables bezier curves
+                                    }
+                                },
+                            {% endif %}
+                            scales: {
+                                xAxes: [{
+                                    fontSize:6
+                                }]
+                            }
+                };
+
+            var chart = new Chart(mychart,{
+                {% if ctype == 'bar' %}
+                    type: 'bar',
+                    plugins: [{afterDatasetsDraw: function(chart, easing) {
+                        // To only draw at the end of animation, check for easing === 1
+                        var ctx = chart.ctx;
+                        chart.data.datasets.forEach(function (dataset, i) {
+                            var meta = chart.getDatasetMeta(i);
+                            if (!meta.hidden) {
+                                meta.data.forEach(function(element, index) {
+                                    // Draw the text in black, with the specified font
+                                    ctx.fillStyle = 'rgb(0, 0, 0)';
+                                    var fontSize = 10;
+                                    var fontStyle = 'normal';
+                                    var fontFamily = 'Helvetica Neue';
+                                    ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+                                    // Just naively convert to string for now
+                                    var dataString = $.number(dataset.data[index],2);
+                                    // Make sure alignment settings are correct
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'middle';
+                                    var padding = 2;
+                                    var position = element.tooltipPosition();
+                                    ctx.fillText(dataString, position.x, position.y - (fontSize / 2) );
+                                });
+                            }
+                        });
+                    }}],
+                        
+                {% else %}
+                    type: 'line',
+                {% endif %}
+                data: data,
+                options: options
+                
+            });
+
+        });
+   });
+
+
+    function drawChart(start_date,end_date){
+        var win_height=$(window).height();
+        $('div.chart-container').removeAttr("style");
+        $('div.chart-container').css({"min-height":0.4*win_height+'px',"max-height":0.8*win_height+'px'});
+        $('#item_dsc').removeClass('is-hidden');
+        $('#table_area').removeClass('is-hidden');
+        $("div[id^='desc_box']").remove();
+        $("div[id^='dsc_table']").remove();
+        $('#chart').remove();
+        $('div.chart-container').append('<canvas style="position: relative; height:70vh;max-height:100%;" id="chart"></canvas>');
+        var mychart  = $("#chart");
+        if ($('#slctd_ind').val()==''){
+            var iname='{{ default_title }}';
+            var icode='{{ default_item }}';
+        }else{
+            var iname=$('#slctd_ind').val();
+            var icode=$('#indicators [value="'+$('#slctd_ind').val()+'"]').data('value');
+        }
+
+        var cdiff=$('#slctd_trans input[type=radio]:checked').data('value'); 
+        var cfreq=$('#slctd_freq input[type=radio]:checked').data('value');
+        var crng=$('#slctd_rng input[type=radio]:checked').data('value');
+        
+        
+        $("#slider-1").data("ionRangeSlider").update({
+            from_pretty: start_date,
+            to_pretty: end_date
+        });
+        if (crng=='max'){
+            var d1='';
+            var d2='';
+        }else{
+            var d1=start_date;
+            var d2=end_date;
+        }
+
+        {% if col_index %}
+            var col_index='{{ col_index }}';
+        {% else %}
+            var col_index='1';
+        {% endif %}
+        var url='/quandldata?dataset={{ dataset }}&symbol='+icode+'&transform='+cdiff+
+                    '&freq_days='+cfreq+'&range='+crng+'&start_date='+d1+'&end_date='+d2+'&col_index='+col_index;
+        console.log(url);
+
+        var chartData=$.get(url);
+        chartData.done(function(results){
+
+
+                var item_name=results.name;
+                var item_desc=results.desc;
+                var item_freq=results.freq;
+                var item_freq_days=results.freq_act_days;
+                $('#slctd_freq input[type=radio]').removeAttr('checked');
+                $('#slctd_freq input[type=radio]').filter('[value="'+item_freq+'"]').prop('checked', true);
+                $('#freq_tag').remove();
+                $('#selection_tags').append('<div id="freq_tag" style="float:left;"><span class="tag is-success is-rounded">'+item_freq+
+                    '<button class="delete is-small" onclick="$(this).parent().remove();"></button></div>'); 
+                $('#item_dsc').append('<div id="desc_box" class="content" ><p class="subtitle is-5" style="padding-left:10px;text-overflow:ellipsis;max-width:95%;overflow:hidden;">'+item_name+'<span class="tag is-light">'+item_freq+
+                    '</span></p><p class="is-size-6" style="padding-left:10px;text-overflow:ellipsis;max-width:95%;overflow:hidden;">'+item_desc+'</p></div>');
+
+                var dsc=results.dsc_table;
+                var dsc_item=$.parseJSON(dsc);
+                var dsc_txt='<tr><th>Count</th><td>'+dsc_item.count+'</td></tr>'+
+                            '<tr><th>Mean</th><td>'+$.number(dsc_item.mean,2)+'</td></tr>'+
+                            '<tr><th>Min</th><td>'+$.number(dsc_item.min,2)+'</td></tr>'+
+                            '<tr><th>25%</th><td>'+$.number(dsc_item['25%'],2)+'</td></tr>'+
+                            '<tr><th>50%</th><td>'+$.number(dsc_item['50%'],2)+'</td></tr>'+
+                            '<tr><th>75%</th><td>'+$.number(dsc_item['75%'],2)+'</td></tr>'+
+                            '<tr><th>Max</th><td>'+$.number(dsc_item.max,2)+'</td></tr>'+
+                            '<tr><th>Std</th><td>'+$.number(dsc_item.std,2)+'</td></tr>';
+                $('#table_area').append('<div id="dsc_table"><h6 class="subtitle is-6" style="padding-left:10px;">Descriptive Statistics</h6><h7 class="is-size-7"><table class="table is-fullwidth" style="padding-left:10px;">'+
+                                        '<tr><th></th><th>Value</th></tr>'+
+                                        dsc_txt+'</table></h7></div>');    
+
+                var chrtlabels= results.label;
+                var chrtdata=results.data;
+                
+                var data =  {
+                    labels : chrtlabels,
+                    datasets : [{
+                            label: iname,
+                            backgroundColor: "rgba(255,99,132,0.2)",
+                            borderColor: "rgba(255,99,132,0.7)",
+                            borderWidth : 1,
+                            data : chrtdata
+                    }]
+                };
+                if (results.ctype=='line'){
+                    var options = {
+                        responsive : true,              
+                        maintainAspectRatio: false,
+                        responsiveAnimationDuration: 500,
+                        title: {
+                            display: true,
+                            fontSize: 20,
+                            text: iname
+                        },
+                        legend: {
+                            display: false
+                        },
+                        elements: {
+                                line: {
+                                    tension: 0, // disables bezier curves
+                                }
+                        },
+                        scales: {
+                            xAxes: [{
+                                fontSize:6
+                            }]
+                        }
+                    };
+                    var chart = new Chart(mychart,{
+                        type: 'line',
+                        data: data,
+                        options: options
+    
+                    });
+    
+    
+                } else{
+                    var options = {
+                        responsive : true,              
+                        maintainAspectRatio: false,
+                        responsiveAnimationDuration: 500,
+                        title: {
+                            display: true,
+                            fontSize: 14,
+                            text: iname
+                        },
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            xAxes: [{
+                                fontSize:6
+                            }]
+                        }
+                    };
+                    var chart = new Chart(mychart,{
+                            type: 'bar',
+                            plugins: [{afterDatasetsDraw: function(chart, easing) {
+                                // To only draw at the end of animation, check for easing === 1
+                                var ctx = chart.ctx;
+                                chart.data.datasets.forEach(function (dataset, i) {
+                                    var meta = chart.getDatasetMeta(i);
+                                    if (!meta.hidden) {
+                                        meta.data.forEach(function(element, index) {
+                                            // Draw the text in black, with the specified font
+                                            ctx.fillStyle = 'rgb(0, 0, 0)';
+                                            var fontSize = 10;
+                                            var fontStyle = 'normal';
+                                            var fontFamily = 'Helvetica Neue';
+                                            ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+                                            // Just naively convert to string for now
+                                            var dataString = $.number(dataset.data[index],2);
+                                            if (dataString=='0.00'){
+                                                dataString='';
+                                            }
+                                            //var dataString = dataset.data[index].toString();
+                                            // Make sure alignment settings are correct
+                                            ctx.textAlign = 'center';
+                                            ctx.textBaseline = 'middle';
+                                            var padding = 2;
+                                            var position = element.tooltipPosition();
+                                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) );
+                                        });
+                                    }
+                                });
+                            }}],
+                            data: data,
+                            options: options
+            
+                    });
+                }
+
+            
+            });
+
+    }
+
+
+    function date_iso_conv(start,end){
+
+    }
+
+
+    function plotChange(url,symbol){
+       
+        $('#chart2_area').append('<div id="chartbox" class="box"></div>');
+        
+        var plotData=$.get(url);
+        plotData.done(function(results){
+            console.log(results);
+               $('#chartbox').append(results.imagedata);
+                $('#desc2_area').append('<div id="desc2table"><h6 class="subtitle is-6">Distribution Characteristics</h6>'+
+                    '<div class="is-size-7"><table class="table is-fullwidth is-narrow"><tr><th>kurtosis</th><th>skewness</th></tr><tr><td>'+
+                    results.kurtosis+'</td><td>'+results.skew+'</td></tr></table></div></div>');
+        });
+
+        
+        if (navigator.userAgent.match(/Chrome|AppleWebKit/)) { 
+            window.location.href = "#chart2_area";
+            window.location.href = "#chart2_area";  /* these take twice */
+        } else {
+            window.location.hash = "chart2_area";
+        }
+
+    }
+
+    function plotChange2(){
+        $('#charttype_control').addClass(' is-loading');
+        $(".loader").fadeOut(2000);
+        $('#chartbox').remove();
+        $('#chart2_area').append('<div id="chartbox" class="box"><canvas id="chart2" style="position: relative; height:50vh;width:95vw;"></canvas></div>');
+        var mychart2 = $("#chart2");
+        var chtname=$('#slctd_chart').val();
+        var charttype=$('#charttype [value="'+chtname+'"]').data('value');
+        var iname=$('#slctd_ind').val();
+        var icode=$('#indicators [value="'+iname+'"]').data('value');
+        var diff=$('#slctd_diff').val();
+        var cdiff=$('#diff [value="'+diff+'"]').data('value');
+        var symbol= icode;
+        var title= iname;
+        var url='/plotdata?dataset={{ dataset }}&freq=daily&col_index=1&symbol='+symbol+'&transform='+cdiff+'&plottype='+charttype;
+        var plotData=$.get(url);
+        plotData.done(function(results){
+            console.log(results);
+            var chrtlabels= results.label;
+            var chrtdata=results.data;
+            
+            var data =  {
+                labels : chrtlabels,
+                datasets : [{
+                        label: 'Density Distribution',
+                        backgroundColor: "rgba(102,255,153,0.3)", 
+                        borderColor: "rgba(102,255,153,0.8)",
+                        borderWidth : 1,
+                        data : chrtdata
+                }]
+            };
+            var options = {
+                responsive : true,              
+                maintainAspectRatio: false,
+                responsiveAnimationDuration: 500,
+                title: {
+                    display: true,
+                    fontSize: 14,
+                    text: title
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        fontSize:6
+                    }]
+                }
+            };
+            var chart = new Chart(mychart2,{
+                    type: 'bar',
+                    plugins: [{afterDatasetsDraw: function(chart, easing) {
+                        // To only draw at the end of animation, check for easing === 1
+                        var ctx = chart.ctx;
+                        chart.data.datasets.forEach(function (dataset, i) {
+                            var meta = chart.getDatasetMeta(i);
+                            if (!meta.hidden) {
+                                meta.data.forEach(function(element, index) {
+                                    // Draw the text in black, with the specified font
+                                    ctx.fillStyle = 'rgb(0, 0, 0)';
+                                    var fontSize = 10;
+                                    var fontStyle = 'normal';
+                                    var fontFamily = 'Helvetica Neue';
+                                    ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+                                    // Just naively convert to string for now
+                                    var dataString = $.number(dataset.data[index],0);
+                                    if (dataString=='0'){
+                                        dataString='';
+                                    }
+                                    //var dataString = dataset.data[index].toString();
+                                    // Make sure alignment settings are correct
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'middle';
+                                    var padding = 2;
+                                    var position = element.tooltipPosition();
+                                    ctx.fillText(dataString, position.x, position.y - (fontSize / 2) );
+                                });
+                            }
+                        });
+                    }}],
+                    data: data,
+                    options: options
+    
+                });
+  
+
+               if (navigator.userAgent.match(/Chrome|AppleWebKit/)) { 
+                    window.location.href = "#chart2_area";
+                    window.location.href = "#chart2_area";  /* these take twice */
+                } else {
+                    window.location.hash = "chart2_area";
+                }
+                $('#charttype_control').removeClass('is-loading');
+
+        });
+    }
+
+
+
+
+ 
+   
+    
+    </script>
+
+
+
+
+  </body>
+</html>

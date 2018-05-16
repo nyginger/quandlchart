@@ -58,7 +58,7 @@ def quandl_content(title, dataset,default_item, col_index,sorting, category, cou
 
     url = 'https://www.quandl.com/api/v3/datasets/{}/{}'  \
 					+ '.json?&api_key={}&start_date={}&end_date={}&order=asc&collapse=none&transform=none&column_index={}'
-    dataurl=url.format(dataset,apikey,default_item,start_date,end_date,col_index)
+    dataurl=url.format(dataset,default_item,API_KEY,start_date,end_date,col_index)
     print(dataurl)
     result=requests.get(dataurl).json()
     freq=result['dataset']['frequency']
@@ -382,7 +382,7 @@ def quandldata(request):
         col_index=request.GET['col_index']
     except:
         col_index=1
-    dataurl=url.format(dataset,API_KEY,symbol,start_date,end_date,freq,transform,col_index)
+    dataurl=url.format(dataset,symbol,API_KEY,start_date,end_date,freq,transform,col_index)
     print(dataurl)
     result=requests.get(dataurl).json()
     name=result['dataset']['name']
@@ -490,7 +490,7 @@ def plotdata(request):
         col_index=request.GET['col_index']
     except:
         col_index=1
-    dataurl=url.format(dataset,API_KEY,symbol,start_date,end_date,freq,transform,col_index)
+    dataurl=url.format(dataset,symbol,API_KEY,start_date,end_date,freq,transform,col_index)
     print(dataurl)
     result=requests.get(dataurl).json()
     df=pd.DataFrame(result['dataset']['data'], columns=result['dataset']['column_names'])
